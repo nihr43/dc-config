@@ -1,0 +1,60 @@
+---
+
+- name: install common packages
+  package: name=ca_root_nss,htop,python,screen state=present
+
+- name: configure dns
+  template:
+   src: resolv.conf
+   dest: /etc/resolv.conf
+   owner: root
+   group: wheel
+   mode: '0644'
+
+- name: land authorized_keys
+  authorized_key:
+   user: root
+   state: present
+   key: https://github.com/nihr43.keys
+
+- name: clean pkg cache
+  raw: env PAGER=cat pkg clean -ay
+  register: clean
+  changed_when: "'All done' in clean.stdout"
+
+- name: remove unused pkgs
+  raw: env PAGER=cat pkg auto -y
+  register: autoremove
+  changed_when: "'Deinstallation has been requested' in autoremove.stdout"
+
+- name: scramble root passwd
+  raw: dd if=/dev/random count=1 status=none | md5 | pw usermod root -h 0
+  changed_when: false
+
+- name: force ssh key auth
+  lineinfile:
+   path: /etc/ssh/sshd_config
+   regexp: '^PermitRootLogin'
+   line: 'PermitRootLogin prohibit-password'
+  notify: restart sshd
+
+- name: configure bootloader splash
+  lineinfile:
+   path: /boot/loader.conf
+   regexp: '^loader_logo='
+   line: 'loader_logo="beastie"'
+
+- name: enforce rc.conf permissions
+  file:
+   path: /etc/rc.conf
+   owner: root
+   group: wheel
+   mode: '0600'
+
+- name: enforce ttys
+  template:
+   src: ttys
+   dest: /etc/ttys
+   owner: root
+   group: wheel
+   mode: '0644'

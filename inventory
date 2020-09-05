@@ -1,0 +1,89 @@
+[freebsd_common:children]
+freebsd_default
+
+[freebsd_default]
+10.0.0.10
+
+[debian_common:children]
+debian_physical
+
+[debian_physical]
+10.0.0.208 static_address=10.0.0.208
+10.0.0.209 static_address=10.0.0.209
+10.0.0.210 static_address=10.0.0.210
+
+[alpine_common:children]
+nameservers
+cockroachdb_nodes
+alpine_default
+elasticsearch_nodes
+haproxy_nodes
+minio_nodes
+registry_nodes
+etcd_nodes
+jenkins_nodes
+postgres_nodes
+
+[minio_nodes:children]
+minio_blue
+minio_green
+minio_yellow
+
+[alpine_default]
+alpine-dev-0 alpine_release=3.12
+
+[nameservers]
+ns-[0:2]
+
+[etcd_nodes]
+etcd-0 mygroup=etcd_nodes static_address=10.0.0.80 disable_dhcp=false # could not force etcd not to use dhcp address
+etcd-1 mygroup=etcd_nodes static_address=10.0.0.81 disable_dhcp=false
+etcd-2 mygroup=etcd_nodes static_address=10.0.0.82 disable_dhcp=false
+
+[registry_nodes]
+docker-registry-0 static_address=10.0.0.85
+docker-registry-1 static_address=10.0.0.86
+
+[haproxy_nodes]
+
+[minio_blue]
+#minio-blue-0 static_address=10.0.0.70
+#minio-blue-1 static_address=10.0.0.71
+#minio-blue-2 static_address=10.0.0.72
+#minio-blue-3 static_address=10.0.0.73
+
+[minio_green]
+#minio-green-0 static_address=10.0.0.74
+#minio-green-1 static_address=10.0.0.75
+#minio-green-2 static_address=10.0.0.76
+#minio-green-3 static_address=10.0.0.77
+
+[minio_yellow]
+minio-yellow-0 static_address=10.0.0.66
+minio-yellow-1 static_address=10.0.0.67
+minio-yellow-2 static_address=10.0.0.68
+minio-yellow-3 static_address=10.0.0.69
+
+[cockroachdb_nodes]
+cockroachdb-0 leader=True
+cockroachdb-1 leader=False
+cockroachdb-2 leader=False
+
+[elasticsearch_nodes]
+elasticsearch-0 mygroup=elasticsearch_nodes master=true static_address=10.0.0.83
+elasticsearch-1 mygroup=elasticsearch_nodes master=true static_address=10.0.0.84
+
+[jenkins_nodes]
+jenkins-0 alpine_release=3.11
+
+[postgres_nodes]
+postgres-0 alpine_release=3.11
+
+[alpine_common:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[freebsd_common:vars]
+ansible_python_interpreter=/usr/local/bin/python
+
+[debian_common:vars]
+ansible_python_interpreter=/usr/bin/python3
