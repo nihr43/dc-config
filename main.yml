@@ -1,5 +1,11 @@
 ---
 
+- hosts: debian_physical
+  serial: 1
+  order: shuffle
+  roles:
+   - debian_physical
+
 - hosts: freebsd_common
   roles:
    - freebsd_common
