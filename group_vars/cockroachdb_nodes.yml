@@ -1,0 +1,12 @@
+---
+
+# alpine_common
+alpine_release: 3.12
+
+# keepalived
+bind_address: 10.0.0.52
+keepalived_watch: cockroach
+
+# cockroachdb
+db_address: cockroachdb.localnet
+mygroup: cockroachdb_nodes

@@ -1,0 +1,8 @@
+---
+
+# alpine_common
+alpine_release: 3.12
+
+# unbound
+bind_address: 10.0.0.2
+keepalived_watch: unbound

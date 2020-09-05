@@ -1,0 +1,8 @@
+---
+
+# alpine_common
+alpine_release: 3.12
+
+# keepalived
+bind_address: 10.0.0.51
+keepalived_watch: docker-registry
