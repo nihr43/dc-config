@@ -1,0 +1,10 @@
+auto lo
+iface lo inet loopback
+
+auto br0
+iface br0 inet static  
+  pre-up /usr/sbin/bondup
+  bridge_ports bond0
+  address {{ static_address }}
+  netmask {{ static_netmask }}
+  gateway {{ static_gateway }}

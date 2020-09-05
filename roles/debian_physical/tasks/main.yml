@@ -1,0 +1,36 @@
+---
+
+- name: land authorized_keys
+  authorized_key:
+   user: root
+   state: present
+   exclusive: true
+   key: https://github.com/nihr43.keys
+
+- name: configure repos
+  template:
+   src: sources.list
+   dest: /etc/apt/sources.list
+   owner: root
+   group: root
+   mode: '0644'
+
+- name: install common packages
+  package: name=htop,vim,python3-setuptools,python3-pip,python3-apt
+
+- name: land bondup hack
+  template:
+   src: bondup
+   dest: /usr/sbin/bondup
+   owner: root
+   group: root
+   mode: '0755'
+
+- name: configure network
+  template:
+   src: interfaces
+   dest: /etc/network/interfaces
+   owner: root
+   group: root
+   mode: '0644'
+  notify: reboot

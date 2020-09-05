@@ -1,0 +1,7 @@
+#!/bin/sh
+modprobe bonding
+echo "+bond0" > /sys/class/net/bonding_masters
+echo "9000" > /sys/class/net/bond0/mtu
+echo "802.3ad" > /sys/class/net/bond0/bonding/mode
+echo "+eno1" > /sys/class/net/bond0/bonding/slaves
+echo "+eno2" > /sys/class/net/bond0/bonding/slaves
