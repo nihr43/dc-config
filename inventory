@@ -30,7 +30,7 @@ minio_green
 minio_yellow
 
 [alpine_default]
-alpine-dev-0 alpine_release=3.12
+10.0.0.61 alpine_release=3.12
 
 [nameservers]
 ns-[0:2]
