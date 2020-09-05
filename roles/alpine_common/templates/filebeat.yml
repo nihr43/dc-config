@@ -1,0 +1,12 @@
+---
+
+logging.metrics.enabled: false
+
+filebeat.inputs:
+ - type: log
+   enabled: true
+   paths:
+    - /var/log/*
+
+output.elasticsearch:
+ hosts: ["elasticsearch.localnet:9200"]

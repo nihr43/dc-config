@@ -1,0 +1,36 @@
+---
+
+- name: land authorized_keys
+  authorized_key:
+   user: root
+   state: present
+   key: https://github.com/nihr43.keys
+
+- name: configure repos
+  template:
+   src: repositories
+   dest: /etc/apk/repositories
+   owner: root
+   group: root
+   mode: '0644'
+
+- name: install common packages
+  package: name=python3,py3-setuptools,py3-pip,htop
+
+- name: install filebeat
+  package: name=filebeat
+
+- name: configure filebeat
+  template:
+   src: filebeat.yml
+   dest: /etc/filebeat/filebeat.yml
+   owner: root
+   group: root
+   mode: '0644'
+  notify: restart filebeat
+
+- name: enable filebeat
+  service:
+   name: filebeat
+   enabled: true
+   state: started

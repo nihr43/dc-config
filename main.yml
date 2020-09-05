@@ -10,3 +10,7 @@
 - hosts: freebsd_common
   roles:
    - freebsd_common
+
+- hosts: alpine_common
+  roles:
+   - alpine_common
