@@ -1,0 +1,52 @@
+---
+
+- name: install role packages
+  package:
+    name: snapd
+    state: present
+
+- name: install lxd
+  snap:
+    name: lxd
+    channel: latest/stable
+
+- name: enable lxd
+  service:
+    name: snap.lxd.daemon
+    enabled: true
+    state: started
+
+- name: land sysctls for containers
+  template:
+    src: lxd.conf.sysctl
+    dest: /etc/sysctl.d/lxd.conf
+
+- name: add telegraf apt key
+  apt_key:
+    url: "https://repos.influxdata.com/influxdb.key"
+    state: present
+
+- name: land influx repo
+  template:
+    src: influxdb.list
+    dest: /etc/apt/sources.list.d/influxdb.list
+
+- name: install telegraf
+  apt:
+    name: telegraf
+    update_cache: true
+
+- name: configure telegraf
+  template:
+    src: telegraf.conf
+    dest: /etc/telegraf/telegraf.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart telegraf
+
+- name: start and enable telegraf
+  service:
+    name: telegraf
+    enabled: true
+    state: started

@@ -5,6 +5,7 @@
   order: shuffle
   roles:
    - debian_physical
+   - lxd_debian
 
 - hosts: freebsd_common
   roles:
