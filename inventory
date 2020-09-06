@@ -3,6 +3,7 @@ freebsd_default
 
 [freebsd_default]
 10.0.0.10
+10.0.0.11
 
 [debian_common:children]
 debian_physical
