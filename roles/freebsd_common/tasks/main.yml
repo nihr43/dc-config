@@ -1,7 +1,7 @@
 ---
 
 - name: install common packages
-  package: name=ca_root_nss,htop,python,screen state=present
+  package: name=ca_root_nss,htop,python state=present
 
 - name: configure dns
   template:
