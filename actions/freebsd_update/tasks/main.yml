@@ -1,0 +1,22 @@
+---
+
+- hosts: 'freebsd_common'
+  tasks:
+   - name: pkg upgrade
+     raw: pkg update && pkg upgrade -y
+     register: pkg
+     changed_when: "'Your packages are up to date' not in pkg.stdout"
+
+   - name: freebsd-update clean
+     raw: find /var/db/freebsd-update/files/ -type f -print -delete
+     register: find
+     changed_when: "'/var/db/freebsd-update/' in find.stdout"
+
+   - name: freebsd-update fetch
+     raw: env PAGER=cat freebsd-update fetch
+     register: fetch_result
+     changed_when: "'Applying patches' in fetch_result.stdout"
+
+   - name: freebsd-update install
+     raw: env PAGER=cat freebsd-update install
+     when: "'Applying patches' in fetch_result.stdout"
