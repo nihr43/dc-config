@@ -38,12 +38,12 @@ provider "lxd" {
   }
 }
 
-provider "minio" {
-  minio_server = "minio.localnet:9000"
-  minio_region = "us-east-1"
-  minio_access_key = var.AWS_ACCESS_KEY
-  minio_secret_key = var.AWS_SECRET_KEY
-}
+#provider "minio" {
+#  minio_server = "minio.localnet:9000"
+#  minio_region = "us-east-1"
+#  minio_access_key = var.AWS_ACCESS_KEY
+#  minio_secret_key = var.AWS_SECRET_KEY
+#}
 
 provider "kubernetes" {
   load_config_file = "false"
