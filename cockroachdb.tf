@@ -1,8 +1,3 @@
-resource "minio_s3_bucket" "cockroachdb" {
-  bucket = "cockroachdb"
-  acl    = "private"
-}
-
 resource "lxd_container" "cockroachdb" {
   count  = 3
   name   = "cockroachdb-${count.index}"
